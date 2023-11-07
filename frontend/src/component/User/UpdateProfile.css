@@ -17,6 +17,7 @@
     height: 70vh;
     box-sizing: border-box;
     overflow:hidden;
+    /* text-align: center; */
 }
 
 .updateProfileHeading{
