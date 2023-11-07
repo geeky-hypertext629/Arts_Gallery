@@ -52,6 +52,16 @@ const LoginSignUp = () => {
         myForm.set("email",email);
         myForm.set("password",password);
         myForm.set("avatar",avatar);
+        if(password.length<=7)
+        {
+            alert.error("Password must be greater than 8 digits");
+            return;
+        }
+        else if(avatar==null)
+        {
+            alert.error("Please select a profile image");
+            return;
+        }
         dispatch(register(myForm))
 
 }
@@ -130,7 +140,7 @@ const registerDataChange = (e)=>{
                 <form action="" className="loginForm" ref={loginTab} onSubmit={loginSubmit}>
                 <div className="loginEmail">
                     <MailOutlineIcon />
-                    <input type="email" name="email" value={loginEmail} placeholder="<EMAIL>" required onChange={(e)=>setLoginEmail(e.target.value)}/>
+                    <input type="email" name="email" value={loginEmail} placeholder="Enter Email" required onChange={(e)=>setLoginEmail(e.target.value)}/>
                 </div>
                 <div className="loginPassword">
                     <LockOpenIcon />
@@ -147,7 +157,7 @@ const registerDataChange = (e)=>{
                 </div>
                 <div className="signUpEmail">
                     <MailOutlineIcon />
-                    <input type="email" name="email" value={email}  placeholder="<EMAIL>" required onChange={registerDataChange}/>
+                    <input type="email" name="email" value={email}  placeholder="Enter Email" required onChange={registerDataChange}/>
                 </div>
                 <div className="signUpPassword">
                     <LockOpenIcon />

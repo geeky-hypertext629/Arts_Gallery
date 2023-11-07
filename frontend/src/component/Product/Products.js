@@ -12,7 +12,7 @@ import {useAlert} from "react-alert";
 import Typography from "@material-ui/core/Typography";
 import MetaData from '../layout/MetaData';
 
-const categories = ["Sculptures","Serigraphs","Prints","Painting","Street Art","Visual Art","Concrptual Art"];
+const categories = ["Sculptures","Serigraphs","Prints","Painting","Street Art","Visual Art","Conceptual Art"];
 
 const Products = () => {
 
@@ -65,6 +65,38 @@ const Products = () => {
         },
       ];
     
+
+
+      const marks = [
+        {
+          value: 0,
+          label: '0',
+        },
+        {
+          value: 1,
+          label: '1',
+        },
+        {
+          value: 2,
+          label: '2',
+        },
+        {
+          value: 3,
+          label: '3',
+        },
+        {
+          value: 4,
+          label: '4',
+        },
+        {
+          value: 5,
+          label: '5',
+        },
+      ];
+      
+
+
+
   return (
     <Fragment>
     <div className="background">
@@ -104,6 +136,7 @@ const Products = () => {
                         min={0}
                         max={5}
                         valueLabelDisplay='auto'
+                        marks={marks}
                         className='rating_inside'
                     />
                     </fieldset>

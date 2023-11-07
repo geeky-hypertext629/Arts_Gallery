@@ -1,79 +1,20 @@
-import  { Fragment, useEffect } from 'react'
-// // import { AiOutlineShoppingCart } from "react-icons/AiOutlineShoppingCart";
-// import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
+import  { useEffect } from 'react'
 import "./Home.css"
 
 import { clearErrors } from "../../actions/productAction";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-
 import { useSelector, useDispatch } from "react-redux"
+import { getProduct } from "../../actions/productAction";
 
 import { useNavigate } from 'react-router-dom';
-
-
-
-
-
-
-// const Home = () => {
-//   const alert = useAlert();
-
-//   const dispatch = useDispatch();
-
-//   const { loading, error, products } = useSelector(state => state.products)
-
-//   useEffect(() => {
-
-//     if (error) {
-//       alert.error(error);
-//       dispatch(clearErrors());
-//     }
-//     // dispatch(getProduct());
-
-//   }, [dispatch, error, alert])
-
-
-
-//   return (
-//     <Fragment>
-
-//       {loading ? <Loader /> : (
-//           <Fragment>
-//             <MetaData title="ECOMMERCE" />
-
-//             <div className="banner">
-//               <p>Welcome to the Arts Gallery</p>
-//               <h1>FIND AMAZING ARTWORKS HERE</h1>
-
-//               <a href="#container">
-//                 <button onClick={productNavigate}>
-//                   Check out Our Arts 👉
-//                 </button>
-//               </a>
-//             </div>
-
-//             <h2 className="homeHeading">Happy Browsing ✌️</h2>
-
-//             {/* <div className="container" id="container">
-//             {products && products.map((product) => (
-//               <ProductCard key={product._id} product={product} />
-//             ))}
-//           </div> */}
-//           </Fragment>
-//       )}
-//     </Fragment>
-//   )
-// }
-
-
-
-// export default Home;
-
+import { useAlert } from "react-alert";
+import ProductCard from "./ProductCard.js";
 import * as React from 'react';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
+import Loader from '../layout/Loader/Loader.js';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -103,7 +44,19 @@ const images = [
   },
 ];
 
-function SwipeableTextMobileStepper() {
+function Home() {
+
+  const alert = useAlert();
+  const { loading, error, products } = useSelector((state) => state.products);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (error) {
+      alert.error(error);
+      dispatch(clearErrors());
+    }
+    dispatch(getProduct());
+  }, [dispatch, error, alert]);
+
   const navigate = useNavigate();
 
   function productNavigate() {
@@ -112,9 +65,8 @@ function SwipeableTextMobileStepper() {
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
 
-    const dispatch = useDispatch();
 
-  const {  error } = useSelector(state => state.products)
+
 
   useEffect(() => {
 
@@ -122,7 +74,6 @@ function SwipeableTextMobileStepper() {
       alert.error(error);
       dispatch(clearErrors());
     }
-    // dispatch(getProduct());
 
   }, [dispatch, error, alert])
 
@@ -132,15 +83,12 @@ function SwipeableTextMobileStepper() {
 
   return (
     <>
-
-      <Box sx={{ height: 700, minWidth: 1518, flexGrow: 1 }}>
+    {loading?<Loader/> : <>
+    <div className="homePage">
+    <Box sx={{ margin : 0,height: 600, minWidth: 1518, flexGrow: 1 }}>
         <div className="banner card">
           <p>Welcome to the Arts Gallery</p>
           <h1>FIND AMAZING ARTWORKS HERE</h1>
-
-            {/* <button onClick={productNavigate}>
-              Check out Our Arts 👉
-            </button> */}
             <div className="wrapper">
         <button className="cta" onClick={productNavigate}>
           <span>Explore</span>
@@ -156,19 +104,6 @@ function SwipeableTextMobileStepper() {
         </button>
       </div>
         </div>
-        {/* <Paper
-        square
-        elevation={0}
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          height: 50,
-          pl: 2,
-          bgcolor: 'background.default',
-        }}
-      >
-        <Typography>{images[activeStep].label}</Typography>
-      </Paper> */}
 
         <AutoPlaySwipeableViews
           axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
@@ -183,7 +118,7 @@ function SwipeableTextMobileStepper() {
                 <Box
                   component="img"
                   sx={{
-                    height: 855,
+                    height: 600,
                     display: 'block',
                     width: 1518,
                      }}
@@ -195,8 +130,20 @@ function SwipeableTextMobileStepper() {
           ))}
         </AutoPlaySwipeableViews>
       </Box>
+      <div className="featured">
+      <h2 className="homeHeading">Featured Arts</h2>
+          <div className="container" id="container">
+            {products &&
+              products.map((product) => (
+                <ProductCard key={product._id} product={product} />
+              ))}
+          </div>
+          </div>
+          </div>
+    </>}
+      
     </>
   );
 }
 
-export default SwipeableTextMobileStepper;
+export default Home;
